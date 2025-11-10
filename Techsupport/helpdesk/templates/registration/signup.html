@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load tailwind_filters %}
+{% block content %}
+<div class="flex flex-1 justify-center h-[80vh] items-center">
+  <div class="w-4/12 bg-slate">
+    <h2 class="text-xl font-semibold mb-3">Sign Up Here</h2>
+  
+
+  <form method="post">
+  {% csrf_token %}
+  {{ form|crispy }}
+
+  <div class="mb-3">
+    <input type="submit" value="create an account" class="bg-teal-500 text-white px-3 py-2 w-full">
+  </div>
+</form>
+<a href="{% url 'login' %}">Already have an account yet</a>
+</div>
+
+
+</div>
+
+
+
+
+{% endblock %}

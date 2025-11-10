@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+    <div class="flex h-16 px-[5%] py-[3%] justify-between items-center">
+        <div class="w-3/12 flex">
+            <a href="" class="text-black font-semibold text-[180%]">User Help desk Panel</a>
+        </div>
+
+       <div class="grid w-9/12">
+            <div class="flex text-align-right justify-end text-lg  gap-5">
+                
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'admindashboard' %}" class="hover:underline border border-black bg-green-200 rounded">Dashboard</a>
+                <form action="" href="" class="hover:underline inline border border-black bg-green-200 rounded">
+                    <button class="inline" type="submit">Logout</button>
+                </form>
+
+                {% else %}
+
+                <a href="">Login</a>
+                <a href="">Register</a>
+
+                {% endif %}
+            </div>
+            <div class="flex flex-1 text-align-right justify-end gap-8 text-lg py-2">
+                <a href="">Home</a>
+                <a href="">Hosting</a>
+                <a href="">Domain</a>
+                <a href="">Dedicated Server</a>
+                <a href="">VPS</a>
+                <a href="">cloud</a>
+                <a href="">Server</a>
+                <a href="">Transfer</a>
+                <a href="">Services</a>
+            </div>
+       </div>
+    </div>
+    <hr class="border border-black w-3/4 mx-auto my-2">
+
+    
+    <div class="flex min-h-screen">
+
+    <div class="w-2/12 bg-green-200 text-black p-5 space-y-4 hover:bg-green-300">
+        <h2 class="text-2xl font-semibold mb-6">User Menu</h2>
+
+        <nav class="flex flex-col space-y-3 divide-y-2 divide-black">
+            <a href="{% url 'userdashboard' %}" class="hover:bg-slate-600 p-3 rounded">Dashboard</a>
+            <a href="{% url 'usertickets' %}" class="hover:bg-slate-600 p-3 rounded">Ticket</a>
+            <a href="#" class="hover:bg-slate-600 p-3 rounded">Manage Tickets</a>
+            <a href="#" class="hover:bg-slate-600 p-3 rounded">Agents</a>
+            <a href="#" class="hover:bg-slate-600 p-3 rounded">Reports</a>
+            <a href="#" class="hover:bg-slate-600 p-3 rounded">Settings</a>
+        </nav>
+    </div>
+
+
+    {% block content %}
+    
+
+
+    {% endblock %}
+
+    
