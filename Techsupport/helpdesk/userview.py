@@ -1,40 +1,40 @@
-from django.shortcuts import render,redirect
-from helpdesk.models import Supportticket
+from django.shortcuts import render,redirect,get_object_or_404
+from helpdesk.models import Supportticket,Ticketattachment,Ticketcomment
 from .userform import SupportTicketForm,TicketAttachmentForm,TicketCommentForm
 
-def userdashboard(r):
-    # countticket={
-    #     'openticket':Supportticket.objects.filter(status='open', created_by=r.user).count(),
-    #     'closedticket':Supportticket.objects.filter(status='closed',created_by=r.user).count(),
-    #     'inprogressticket':Supportticket.objects.filter(status='inprogress',created_by=r.user).count(),
-    # }
-    return render(r,'user/userdashboard.html')
+def userdashboard(request):
+    countticket={
+        'openticket':Supportticket.objects.filter(status='open', created_by=request.user).count(),
+        'closedticket':Supportticket.objects.filter(status='closed',created_by=request.user).count(),
+        'inprogressticket':Supportticket.objects.filter(status='inprogress',created_by=request.user).count(),
+    }
+    return render(request,'user/userdashboard.html',countticket)
 
-def usertickets(r):
-    ticketform=SupportTicketForm(r.POST or None, r.FILES or None)
-    attachmentform=TicketAttachmentForm(r.POST or None, r.FILES or None)
-    commentsform=TicketCommentForm(r.POST or None, r.FILES or None)
+def userhome(request):
+     return render(request,"user/userhome.html")
 
-    tickets=Supportticket.objects.filter(created_by=r.user)
-    if r.method == "POST":
-        if ticketform.is_valid() and attachmentform.is_valid() and commentsform.is_valid():
+def usertickets(request):
+    if request.method == "POST":
+        title=request.POST.get('title')
+        description=request.POST.get('description')
 
-            ticket=ticketform.save(commit=False)
-            ticket.created_by=r.user
-            ticket.status='open'
-            ticket.save()
+        newticket=Supportticket.objects.create(
+            title=title,
+            description=description,
+            created_by=request.user,
+            status="open"
+        )
 
-            attachment=attachmentform.save(commit=False)
-            attachment.ticket=ticket
-            attachment.uploaded_by=r.user
-            attachment.save()
+        if "attachments" in request.FILES:
+            attachments=request.FILES.getlist('attachments')
+            for file in attachments:
+                Ticketattachment.objects.create(file=file,ticket=newticket,uploaded_by=request.user)
 
-            comment=commentsform.save(commit=False)
-            comment.ticket=ticket
-            comment.commented_by=r.user
-            comment.save()
-            return redirect('usertickets')  
-    return render(r,'user/usertickets.html',{'ticketform':ticketform,'attachmentform':attachmentform,'commentsform':commentsform,'tickets':tickets})
+        return redirect('usertickets')  
+    
+    myticket=Supportticket.objects.filter(created_by=request.user)
+
+    return render(request,'user/usertickets.html',{"myticket":myticket})
 
 def iscomplete(r,id):
     ticket=SupportTicketForm.objects.get(id=id)
@@ -43,25 +43,28 @@ def iscomplete(r,id):
     ticket.save()
     return redirect('usertickets')
 
-def userticketdetail(r,id):
-    details=Supportticket.objects.get(id=id)
-    replies=details.comments.all()
-
-    if r.method == "POST":
-        commentform=TicketCommentForm(r.POST or None, r.FILES or None)
-        attachmentform=TicketAttachmentForm(r.POST or None, r.FILES or None)
-
-        if commentform.is_valid() and attachmentform.is_valid():
-            comment=commentform.save(commit=False)
-            comment.ticket=details
-            comment.commented_by=r.user
-            comment.save()
-
-            attachment=attachmentform.save(commit=False)
-            attachment.ticket=details
-            attachment.uploaded_by=r.user
-            attachment.save()
-
-            return redirect('userticketdetail', id=id)
+def userticketdetail(request,id):
+   
+        ticket=Supportticket.objects.get(id=id,created_by=request.user)
+        attachments = Ticketattachment.objects.filter(ticket=ticket)
+        comments=Ticketcomment.objects.filter(ticket=ticket)
         
-    return render(r,'user/userticketdetail.html',{'details':details,'replies':replies,'commentform':TicketCommentForm(),'attachmentform':TicketAttachmentForm()})
+        form=TicketCommentForm(request.POST or None, request.FILES or None)
+                     
+        context={
+            'ticket':ticket,
+            'attachments':attachments,
+            'comments':comments,
+            'form':form
+        }
+
+        if request.method == "POST":
+             if form.is_valid():
+                  reply=form.save(commit=False)
+                  reply.ticket=ticket
+                  reply.commented_by=request.user
+                  reply.save()
+                  return redirect("userticketdetail",id=id)
+
+
+        return render(request,'user/userticketdetail.html',context)

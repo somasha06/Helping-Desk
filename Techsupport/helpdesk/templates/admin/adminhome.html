@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+</head>
+<body>
+    <div class="flex h-16 px-[5%] py-[3%] justify-between items-center">
+        <div class="w-3/12 flex">
+            <a href="" class="text-black font-semibold text-[180%]">Admin Help desk Panel</a>
+        </div>
+
+       <div class="grid w-9/12">
+            <div class="flex text-align-right justify-end text-lg  gap-5">
+                
+                {% if request.user.is_authenticated %}
+                
+                {% comment %} <a href="{% url 'admindashboard' %}" class="hover:underline border bg-green-200 p-1 rounded-lg">Dashboard</a> {% endcomment %}
+                <form action="{% url 'getlogout' %}" class="hover:underline border bg-green-200 p-1 rounded-lg">
+                    {% csrf_token %}
+                    <button class="inline" type="submit">Logout</button>
+                </form>
+
+                {% endif %}
+            </div>
+            <div class="flex flex-1 text-align-right justify-end gap-8 text-lg py-2">
+                <a href="">Home</a>
+                <a href="">Hosting</a>
+                <a href="">Domain</a>
+                <a href="">Dedicated Server</a>
+                <a href="">VPS</a>
+                <a href="">cloud</a>
+                <a href="">Server</a>
+                <a href="">Transfer</a>
+                <a href="">Services</a>
+            </div>
+       </div>
+    </div>
+    <hr class="border border-black w-3/4 mx-auto my-2">
+
+
+    <div class="flex w-full min-h-screen bg-gray-50">
+
+
+
+
+
+<div class="flex flex-1">
+    <div class="w-7/12 px-10 py-10 space-y-6">
+        <h1 class="text-[280%] text-center font-bold">India's Best Web hosting Services Provider with Offers</h1>
+        <h4 class="text-orange-500 mb-2 text-4xl font-bold capitalize text-blue-600">Hi, 
+            {% if request.user.is_authenticated %} {{ request.user.username }}! {% else %} Guest!{% endif %}
+        </h4>
+        <div class="flex gap-5">
+            <h1 class="text-[180%] font-bold text-center">Welcome to Help desk panel!</h1>
+            {% comment %} {% if request.user.is_authenticated %} {% endcomment %}
+            <a href="{% url 'admindashboard' %}" class="bg-slate-700 text-black font-bold text-xl text-white px-6 py-3 rounded hover:bg-blue-500">Go to Dashboard</a>
+            {% comment %} {% else %}
+            <a href="" class="bg-slate-300 text-black px-6 py-3 rounded hover:bg-blue-700">Get Started</a>
+            {% endif %}  {% endcomment %}
+        </div>
+        <p class="text-[200%] font-semibold">Hosting from India’s No. 1 Web Hosting Company</p>
+        <p class="text-xl">Trusted By Over 1,50,000 Customers ...<i class="fa-regular fa-face-smile-wink text-[150%] text-yellow-500"></i></p>
+
+        <div class="border border-black flex rounded w-2/4">
+            <input type="text" placeholder="enter your domain name here....." class="text-black px-5 py-2 ">
+            <button class="outline-none text-black px-3 py-3 text-xl rounded hover:bg-slate-500 text-align-right items-center justify-end flex w-2/4"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+
+        <div class="grid grid-cols-3 gap-5 text-lg text-gray-700">
+            <a href="">*Enterprise Hosting Services</a>
+            <a href="">*WordPress Supported</a>
+            <a href="">*Money-Back Guarantee</a>
+            <a href="">*Domain Registration</a>
+            <a href="">*Website Builder</a>
+            <a href="">*Firewall & Security</a>
+            <a href="">*NVMe High-Speed Disk</a>
+        </div>
+    </div>
+    <div class="w-5/12 p-10 flex items-center justify-center">
+        <img src="{% static 'helpdog.png' %}" alt="Help Desk dog" class="rounded-2xl shadow-lg object-cover  w-[400px]" />
+
+    </div>
+    
+</div>
+

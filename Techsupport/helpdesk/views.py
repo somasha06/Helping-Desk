@@ -1,10 +1,10 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm,UserCreationForm
-from django.contrib.auth import authenticate,login as login_user,logout as logout_user
+from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
-from .models import Userrole
+from .models import *
 from django.contrib import messages
-
+from .userform import RegisterForm
 
 
 def home(r):
@@ -72,27 +72,55 @@ def home(r):
         
 
 
-def signup(r):
-    form=UserCreationForm(r.POST or None)
-    if r.method=="POST":
+def signupuser(request):
+    form=RegisterForm(request.POST or None)
+    if request.method=="POST":
         if form.is_valid():
             user=form.save()
-            Userrole.objects.create(user=user,role="user")
-            return redirect("login")
-    return render(r,"registration/signup.html",{"form":form})
+            Userrole.objects.create(account=user,role="user")
+            return redirect("customlogin")
+    return render(request,"registration/signup.html",{"form":form})
+
+# def signupstaff(request):
+#     if not request.user.is_authenticated or request.user.roleinfo.role != "admin":
+#         return redirect("login")
+
+#     form = RegisterForm(request.POST or None)
+#     if request.method == "POST":
+#         if form.is_valid():
+#             staff = form.save()
+#             Userrole.objects.create(account=staff, role="staff")
+#             return redirect("admindashboard")
+
+#     return render(request, "registration/signup.html", {"form": form})
 
 
-def login(r):
-    form=AuthenticationForm(r, data=r.POST or None)
-    if r.method=="POST":
-        if form.is_valid():
-            user=form.get_user()
-            login_user(r,user)
-            return redirect("home")
-    return render(r,"registration/login.html",{"form":form})
+def customlogin(request):
+    if request.method=="POST":
+        username=request.POST.get('username')
+        password=request.POST.get('password')
 
-def logout(r):
-    logout_user(r)
+        user=authenticate(request,username=username,password=password)
+
+        if user is not None:
+            login(request,user)
+
+            role=user.roleinfo.role
+            # if user.is_superuser:
+            #     return redirect('admindashboard')
+            
+            if role == "admin"or user.is_superuser:
+                return redirect("adminhome")
+            elif role == 'staff':
+                return redirect('staffhome')
+            else:
+                return redirect("userhome")
+            
+    return render(request,"registration/login.html")
+
+
+def getlogout(r):
+    logout(r)
     return redirect("home")
 
 

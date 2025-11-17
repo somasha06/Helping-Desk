@@ -21,27 +21,45 @@ from django.conf import settings
 from django.conf.urls.static import static
 from helpdesk.adminview import *
 from helpdesk.userview import *
+from helpdesk.staffview import *
 
 urlpatterns = [
     path('superadmin/', admin.site.urls),
-    path('', home, name='home'),
-    path('login/', login, name='login'),
-    path('logout/', logout, name='logout'),
-    path('signup/', signup, name='signup'),
-    path("auth/",include("django.contrib.auth.urls")),
 
+    # login
+    path('', home, name='home'),
+    path('customlogin/', customlogin, name='customlogin'),
+    path('getlogout/', getlogout, name='getlogout'),
+    path('signupuser', signupuser, name='signupuser'),
+    # path('signupstaff', signupstaff, name='signupstaff'),
+    # path("auth/",include("django.contrib.auth.urls")),
+
+    # admin
     path("admin/",admindashboard,name="admindashboard"),
     path("admin/manageusers/",manageusers,name="manageusers"),
     path("admin/managetickets/",managetickets,name="managetickets"),
-    path("admin/viewticket/",viewticket,name="viewticket"),
+    path("admin/adminview/<int:id>",adminview,name="adminview"),
     path("admin/reports/",reports,name="reports"),
     path("admin/settings/",adminsettings,name="adminsettings"),
-    path("admin/manageagents/",manageagents,name="manageagents"),
+    path("admin/user/",manageusers,name="manageusers"),
+    path("admin/managestaff/",managestaff,name="managestaff"),
+    path("admin/createstaff/", createstaff, name="createstaff"),
+    path("adminhome", adminhome,name="adminhome"),
+    path("admin/removestaff/<int:id>/",removestaff,name="removestaff"),
+    # path("admin/editstaffdetail/<int:id>/",editstaffdetail,name="editstaffdetail"),
 
 
-    path("user/",userdashboard,name="userdashboard"),
+    # user
+    path("userhome/user/",userdashboard,name="userdashboard"),
     path("user/userticket/",usertickets,name="usertickets"),
     path("user/userticketdetail/<int:id>/",userticketdetail,name="userticketdetail"),
+    path("staffdashboard/",staffdashboard, name="staffdashboard"),
+    path("userhome", userhome,name="userhome"),
+
+
+    #staff
+    path("staffhome/",staffhome,name="staffhome"),
+
 ]
 
 

@@ -2,11 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Userrole(models.Model):
-    user=models.OneToOneField(User,on_delete=models.CASCADE,related_name="user_name")
-    role=models.CharField(max_length=200,choices=(("user","user"),("staff","staff"),("admin","admin")))
-
-    def __str__(self):
-        return self.user
+    account=models.OneToOneField(User,on_delete=models.CASCADE,related_name="roleinfo",null=True)#account → the Django built-in User relatedname =the UserRole object linked to that user (reverse lookup)
+    role=models.CharField(max_length=200,choices=(("user","user"),("staff","staff"),("admin","admin")),default='user')
+    
     
 class Supportticket(models.Model):
     title=models.CharField(max_length=200)
@@ -33,4 +31,4 @@ class Ticketattachment(models.Model):
     file=models.FileField(upload_to='ticket_attachments/')
     uploaded_at=models.DateTimeField(auto_now_add=True)
     uploaded_by=models.ForeignKey(User,on_delete=models.CASCADE)
-   
+

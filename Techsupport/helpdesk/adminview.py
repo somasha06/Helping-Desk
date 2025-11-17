@@ -1,35 +1,30 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth.models import User
-from .models import Supportticket, Ticketcomment,Userrole
-from .adminform import ASupportTicketForm, ATicketAttachmentForm, ATicketCommentForm
+from .models import Supportticket, Ticketcomment,Userrole,Ticketattachment
+from .userform import SupportTicketForm,TicketAttachmentForm,TicketCommentForm
 
 
-def admindashboard(r):
+def admindashboard(request):   
+
     count={
         "users":User.objects.count(),
         "tickets":Supportticket.objects.count(),
         "reply":Ticketcomment.objects.count(),
-        "agents":Userrole.objects.filter(role="staff").count(),
-        "resolved_tickets":Supportticket.objects.filter(status="closed").count(),
+        "staff":Userrole.objects.filter(role="staff").count(),
+        "resolved_tickets":Supportticket.objects.filter(status="closed").count(),        
     }
-    return render(r,"admin/admindashboard.html",{"count":count})
+
+    return render(request,"admin/admindashboard.html",count)
+
+def adminhome(request):
+    return render(request,"admin/adminhome.html")
 
 def manageusers(r):
-   
 
     data={
-        "users" : User.objects.filter(is_superuser=False),
+        "users" : User.objects.filter(is_staff=False, is_superuser=False),
     }
-    return render(r,"admin/manageusers.html",data)
-
-def managetickets(r):
-        data = {
-        "tickets" : Supportticket.objects.all()
-    }
-        return render(r,"admin/manageticket.html",data)
-
-def viewticket(r):
-    return render(r,"admin/viewticket.html")
+    return render(r,"admin/manageuser.html",data)
 
 def reports(r):
     return render(r, 'admin/report.html')
@@ -37,31 +32,128 @@ def reports(r):
 def adminsettings(r):
     return render(r, 'admin/setting.html')
 
-def manageagents(r):
-    return render(r, 'admin/manageagents.html')
+def managestaff(request):
 
-def usertickets(r):
-    Aticketform=ASupportTicketForm(r.POST or None, r.FILES or None)
-    Aattachmentform=ATicketAttachmentForm(r.POST or None, r.FILES or None)
-    Acommentsform=ATicketCommentForm(r.POST or None, r.FILES or None)
+    staff_users = User.objects.filter(roleinfo__role="staff")   
 
-    tickets=Supportticket.objects.filter(created_by=r.user)
-    if r.method == "POST":
-        if Aticketform.is_valid() and Aattachmentform.is_valid() and Acommentsform.is_valid():
+    if request.method == "POST":
+        username=request.POST.get("username")
+        email=request.POST.get("email")
+        password=request.POST.get("password")
 
-            ticket=Aticketform.save(commit=False)
-            ticket.created_by=r.user
-            ticket.status='open'
-            ticket.save()
+        staff = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
 
-            attachment=Aattachmentform.save(commit=False)
-            attachment.ticket=ticket
-            attachment.uploaded_by=r.user
-            attachment.save()
+        staff.is_staff = True     
+        staff.save()
 
-            comment=Acommentsform.save(commit=False)
-            comment.ticket=ticket
-            comment.commented_by=r.user
-            comment.save()
-            return redirect('managetickets')  
-    return render(r,'admin/manageticket.html',{'Aticketform':Aticketform,'Aattachmentform':Aattachmentform,'Acommentsform':Acommentsform,'tickets':tickets})
+        Userrole.objects.create(account=staff,role="staff")
+
+        return redirect("createstaff")
+
+    return render(request, 'admin/managestaff.html',{"staff_users": staff_users})
+
+def managetickets(request):
+    if request.method == "POST":
+        title=request.POST.get('title')
+        description=request.POST.get('description')
+
+        newticket=Supportticket.objects.create(
+            title=title,
+            description=description,
+            created_by=request.user,
+            status="open"
+        )
+
+        if "attachments" in request.FILES:
+            attachments=request.FILES.getlist('attachments')
+            for file in attachments:
+                Ticketattachment.objects.create(file=file,ticket=newticket,uploaded_by=request.user)
+
+        return redirect('managetickets')  
+    
+    myticket=Supportticket.objects.all()
+
+    return render(request,'admin/manageticket.html',{"myticket":myticket})
+
+
+def adminview(request,id):
+   
+        ticket=Supportticket.objects.get(id=id)
+        attachments = Ticketattachment.objects.filter(ticket=ticket)
+        comments=Ticketcomment.objects.filter(ticket=ticket)
+        
+        form=TicketCommentForm(request.POST or None, request.FILES or None)
+                     
+        context={
+            'ticket':ticket,
+            'attachments':attachments,
+            'comments':comments,
+            'form':form
+        }
+
+        if request.method == "POST":
+             if form.is_valid():
+                  reply=form.save(commit=False)
+                  reply.ticket=ticket
+                  reply.commented_by=request.user
+                  reply.save()
+                  return redirect("adminview",id=id)
+
+                  
+
+        return render(request,'admin/adminview.html',context)
+
+def createstaff(request):
+
+    staff_users = User.objects.filter(roleinfo__role="staff")   
+
+    if request.method == "POST":
+        username=request.POST.get("username")
+        email=request.POST.get("email")
+        password=request.POST.get("password")
+
+        staff = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
+
+
+        Userrole.objects.create(account=staff,role="staff")
+
+        return redirect("createstaff")
+    return render(request,"admin/createstaff.html",{"staff_users": staff_users})
+
+def removestaff(request,id):
+    remove=User.objects.get(id=id)
+    remove.delete()
+    return redirect(managestaff)
+
+# def editstaffdetail(request,id):
+
+#     staff=User.objects.get(id=id)
+
+#     if request.method == "POST":
+#         staff.username=request.POST.get("username")
+#         staff.email=request.POST.get("email")
+
+#         password=request.POST.get("password")
+#         if password:
+#             staff.set_password(password)
+
+#             staff.save()
+
+#             roleinfo = Userrole.objects.get(account=staff)
+#             roleinfo.account = staff
+#             roleinfo.save()
+
+#             return redirect(managestaff)
+        
+#     return render(request,"admin/editstaffdetail.html",{"staff":staff})
+
+
+

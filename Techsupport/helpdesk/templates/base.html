@@ -15,20 +15,14 @@
         </div>
 
        <div class="grid w-9/12">
-            <div class=" text-lg  gap-5">
+            <div class="flex text-align-right justify-end text-lg  gap-5">
                 
-                {% if request.user.is_authenticated %}
-                <a href="{% url 'admindashboard' %}" class="hover:underline border border-green bg-green-200">Dashboard</a>
-                <form action="" href="" class="hover:underline inline border border-green bg-green-200">
-                    <button class="inline" type="submit">Logout</button>
-                </form>
+                
+                
+                <a href="{% url 'customlogin' %}" class="hover:underline border bg-green-200 p-1 rounded-lg">Login</a>
+                <a href="{% url 'signupuser' %}" class="hover:underline border bg-green-200 p-1 rounded-lg">Signup</a>
 
-                {% else %}
-
-                <a href="">Login</a>
-                <a href="">Register</a>
-
-                {% endif %}
+                
             </div>
             <div class="flex flex-1 text-align-right justify-end gap-8 text-lg py-2">
                 <a href="">Home</a>

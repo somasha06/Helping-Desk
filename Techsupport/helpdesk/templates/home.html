@@ -10,11 +10,11 @@
         </h4>
         <div class="flex gap-5">
             <h1 class="text-[180%] font-bold text-center">Welcome to Help desk panel!</h1>
-            {% if request.user.is_authenticated %}
-            <a href="{% url 'admindashboard' %}" class="bg-slate-300 text-black px-6 py-3 rounded hover:bg-blue-700">Go to Dashboard</a>
+            {% comment %} {% if request.user.is_authenticated %}
+            <a href="" class="bg-slate-300 text-black px-6 py-3 rounded hover:bg-blue-700">Go to Dashboard</a>
             {% else %}
             <a href="" class="bg-slate-300 text-black px-6 py-3 rounded hover:bg-blue-700">Get Started</a>
-            {% endif %}
+            {% endif %} {% endcomment %}
         </div>
         <p class="text-[200%] font-semibold">Hosting from India’s No. 1 Web Hosting Company</p>
         <p class="text-xl">Trusted By Over 1,50,000 Customers ...<i class="fa-regular fa-face-smile-wink text-[150%] text-yellow-500"></i></p>
@@ -36,7 +36,7 @@
     </div>
     <div class="w-5/12 p-10 flex items-center justify-center">
         <img src="{% static 'helpdog.png' %}" alt="Help Desk dog" class="rounded-2xl shadow-lg object-cover  w-[400px]" />
->
+
     </div>
     
 </div>

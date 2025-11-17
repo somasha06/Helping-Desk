@@ -10,23 +10,20 @@
 </head>
 <body>
     <div class="flex h-16 px-[5%] py-[3%] justify-between items-center">
-        <div class="w-3/12 flex">
+        <div class="flex">
             <a href="" class="text-black font-semibold text-[180%]">Admin Help desk Panel</a>
         </div>
 
        <div class="grid w-9/12">
-            <div class="flex text-align-right justify-end text-lg border border-green bg-green-200 gap-5">
+            <div class="flex text-align-right justify-end text-lg  gap-5"> 
                 
                 {% if request.user.is_authenticated %}
-                <a href="{% url 'admindashboard' %}" class="hover:underline">Dashboard</a>
-                <form action="" href="" class="hover:underline inline">
+                
+                {% comment %} <a href="{% url 'admindashboard' %}" class="hover:underline border bg-green-200 p-1 rounded-lg">Dashboard</a> {% endcomment %}
+                <form action="{% url 'getlogout' %}" class="hover:underline border bg-green-200 p-1 rounded-lg">
+                    {% csrf_token %}
                     <button class="inline" type="submit">Logout</button>
                 </form>
-
-                {% else %}
-
-                <a href="">Login</a>
-                <a href="">Register</a>
 
                 {% endif %}
             </div>
@@ -46,24 +43,28 @@
     <hr class="border border-black w-3/4 mx-auto my-2">
 
 
-    <div class="flex min-h-screen bg-gray-50">
+    <div class="flex w-full min-h-screen bg-gray-50">
 
-    <!-- Sidebar (Left) -->
-    <div class="w-2/12 bg-slate-700 text-white p-5 space-y-4">
-        <h2 class="text-2xl font-semibold mb-6">Admin Menu</h2>
+     <!-- Sidebar (Left) -->
+        <div class="w-2/12 bg-slate-700 text-white p-5 space-y-4">
+            <h2 class="text-2xl font-semibold mb-6">Admin Menu</h2>
 
-        <nav class="flex flex-col space-y-3">
-            <a href="{% url 'admindashboard' %}" class="hover:bg-slate-600 p-3 rounded">Dashboard</a>
-            <a href="#" class="hover:bg-slate-600 p-3 rounded">Users</a>
-            <a href="{% url 'managetickets' %}" class="hover:bg-slate-600 p-3 rounded">Manage Tickets</a>
-            <a href="#" class="hover:bg-slate-600 p-3 rounded">Agents</a>
-            <a href="#" class="hover:bg-slate-600 p-3 rounded">Reports</a>
-            <a href="#" class="hover:bg-slate-600 p-3 rounded">Settings</a>
-        </nav>
-    </div>
+            <nav class="flex flex-col space-y-3">
+                <a href="{% url 'admindashboard' %}" class="hover:bg-slate-600 p-3 rounded">Dashboard</a>
+                <a href="{% url 'manageusers' %}" class="hover:bg-slate-600 p-3 rounded">Users</a>
+                <a href="{% url 'managetickets' %}" class="hover:bg-slate-600 p-3 rounded">Manage Tickets</a>
+                <a href="{% url 'managestaff' %}" class="hover:bg-slate-600 p-3 rounded">Manage Staff</a>
+                <a href="#" class="hover:bg-slate-600 p-3 rounded">Reports</a>
+                <a href="#" class="hover:bg-slate-600 p-3 rounded">Settings</a>
+            </nav>
+        </div>
+
 
     {% block content %}
     
     {% endblock %}
+    </div>
 
-    
+
+</body>
+</html>
