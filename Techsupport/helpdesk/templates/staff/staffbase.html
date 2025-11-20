@@ -11,7 +11,7 @@
 <body>
     <div class="flex h-16 px-[5%] py-[3%] justify-between items-center">
         <div class="w-3/12 flex">
-            <a href="" class="text-black font-semibold text-[180%]">Admin Help desk Panel</a>
+            <a href="" class="text-black font-semibold text-[180%]">Staff Help desk Panel</a>
         </div>
 
        <div class="grid w-9/12">
@@ -47,12 +47,12 @@
 
      <!-- Sidebar (Left) -->
     <div class="w-3/12 bg-slate-700 text-white p-5 space-y-4">
-        <h2 class="text-2xl font-semibold mb-6">Admin Menu</h2>
+        <h2 class="text-2xl font-semibold mb-6">Staff Menu</h2>
 
         <nav class="flex flex-col space-y-3">
-            <a href="{% url 'admindashboard' %}" class="hover:bg-slate-600 p-3 rounded">Dashboard</a>
+            <a href="{% url 'staffdashboard' %}" class="hover:bg-slate-600 p-3 rounded">Dashboard</a>
             <a href="#" class="hover:bg-slate-600 p-3 rounded">Users</a>
-            <a href="{% url 'managetickets' %}" class="hover:bg-slate-600 p-3 rounded">Manage Tickets</a>
+            <a href="{% url 'staffmanagetickets' %}" class="hover:bg-slate-600 p-3 rounded">Manage Tickets</a>
             <a href="#" class="hover:bg-slate-600 p-3 rounded">Agents</a>
             <a href="#" class="hover:bg-slate-600 p-3 rounded">Reports</a>
             <a href="#" class="hover:bg-slate-600 p-3 rounded">Settings</a>

@@ -59,7 +59,11 @@ urlpatterns = [
 
     #staff
     path("staffhome/",staffhome,name="staffhome"),
-
+    path("staffhome/staff/",staffdashboard,name="staffdashboard"),
+    path("staffmanageticket/",staffmanagetickets,name="staffmanagetickets"),
+    path("staffmanageticket/<int:id>",staffviewdetail,name="staffviewdetail"),
+    path("taketicket/<int:id>",taketicket,name="taketicket"),
+    path("closeticket/<int:id>/",closeticket,name="closeticket"),
 ]
 
 

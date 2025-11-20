@@ -22,7 +22,7 @@ def adminhome(request):
 def manageusers(r):
 
     data={
-        "users" : User.objects.filter(is_staff=False, is_superuser=False),
+        "users" : Userrole.objects.filter(role="user"),
     }
     return render(r,"admin/manageuser.html",data)
 
@@ -122,7 +122,6 @@ def createstaff(request):
             password=password
         )
 
-
         Userrole.objects.create(account=staff,role="staff")
 
         return redirect("createstaff")
@@ -132,6 +131,7 @@ def removestaff(request,id):
     remove=User.objects.get(id=id)
     remove.delete()
     return redirect(managestaff)
+
 
 # def editstaffdetail(request,id):
 

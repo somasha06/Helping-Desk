@@ -11,7 +11,7 @@
                     <th class="px-4 py-2 border">Username</th>
                     <th class="px-4 py-2 border">Email</th>
                     <th class="px-4 py-2 border">DOJ</th>
-                    <th class="px-4 py-2 border">Total tickets</th>
+                    
                     <th class="px-4 py-2 border">Action</th>
                 </tr>
             </thead>
@@ -23,16 +23,16 @@
                     <td class="px-4 py-2 text-center">{{ s.username }}</td>
                     <td class="px-4 py-2 text-center">{{ s.email }}</td>
                     <td class="px-4 py-2 text-center">{{ s.date_joined }}</td>
-                    <td class="px-4 py-2 text-center flex">
-                        <a href="">view assigned ticket</a>
-                        <a href="">open ticket</a>
-                        <a href="">ticket in progress</a>
-                        <a href="">close ticket</a>
-                    </td>
+                    
 
                     <td class="px-4 py-2 text-center">
                         <a href="">Edit</a>
-                        <a href="{% url 'removestaff' s.id %}">Remove</a>
+                        {% if user != is_active %}
+                        {{user.active}}
+                        <a href="">Active</a>
+                        {% else %}
+                        <a href="">Deactive</a>
+                        {% endif %}
                     </td>
                 </tr>
                 {% empty %}

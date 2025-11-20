@@ -1,0 +1,98 @@
+{% extends "staff/staffbase.html" %}
+{% load tailwind_filters %}
+
+{% block content %}
+
+
+<div class="flex flex-col flex-1">
+
+        <div class="px-[10%] py-6">
+        {#  go back button  #}
+        <div class="flex justify-between">
+            <a href="{% url 'staffmanagetickets' %}" class="bg-orange-600 text-white px-3 py-2 mb-5">Go Back</a>
+            <a href="{% url 'staffdashboard' %}" class="bg-orange-600 text-white px-3 py-2 mb-5">Dashboard</a>
+
+        </div>
+        <h2 class="text-3xl font-semibold mb-6 mt-10">Ticket Details - #{{ ticket.id }}</h2>
+
+        <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
+            <div class="flex items-center gap-2">
+                <h3 class="text-xl font-semibold">Title:</h3>
+                <p class="text-gray-700">{{ ticket.title }}</p>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <h3 class="text-xl font-semibold">Description:</h3>
+                <p class="text-gray-700">{{ ticket.description }}</p>
+
+            </div>
+
+            <div class="flex items-center gap-2">
+                <h3 class="text-xl font-semibold">Status:</h3>
+                <p class="text-gray-700">{{ ticket.status }}</p>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <h3 class="text-xl font-semibold">Created at:</h3>
+                <p class="text-gray-700">{{ ticket.created_at}}</p>
+            </div>
+
+            {% if attachments %}
+            <div class="flex items-center gap-2">
+                <h3 class="text-xl font-semibold">Attachments:</h3>
+                <ul class="list-disc list-inside text-gray-700">
+                    {% for attachment in attachments %}
+                    <li><a href="{{ attachment.file.url }}" target="_blank" class="text-blue-500 hover:underline">{{ attachment.file.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+
+<div class="px-10">
+    <h3 class="font-bold mt-6">Conversation</h3>
+
+
+    {% if comments %}
+        {% for c in comments %}
+            <div class="mb-4 border p-3 rounded shadow-sm">
+                <p class="font-bold">{{ c.commented_by.username }}:</p>
+                <p>{{ c.comment }}</p>
+                <p class="text-gray-500">{{ c.created_at }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No replies yet.</p>
+    {% endif %}
+</div>
+
+
+    <div class="grid p-6 mt-6 ">
+        <h2 class="text-xl font-bold">Reply</h2>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{form|crispy}}
+            <div class="mt-4">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-semibold">Submit Reply</button>
+            </div>
+        </form>
+        
+    </div>
+
+    <div>
+        <form action="{% url 'closeticket' ticket.id %}" method="POST" class="p-6">
+            {% csrf_token %}
+            <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 rounded-lg">Close Ticket</button>
+        </form>
+    </div> 
+
+
+
+</div>
+
+
+
+
+{% endblock content %}  

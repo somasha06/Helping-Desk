@@ -13,11 +13,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for user in users %}
+                    {% for u in users %}
                     <tr>
-                        <td class="py-2 px-4 border-b text-center">{{ user.id }}</td>
-                        <td class="py-2 px-4 border-b text-center">{{ user.username }}</td>
-                        <td class="py-2 px-4 border-b text-center">{{ user.email }}</td>
+                        <td class="py-2 px-4 border-b text-center">{{ forloop.counter }}</td>
+                        <td class="py-2 px-4 border-b text-center">{{ u.account.username }}</td>
+                        <td class="py-2 px-4 border-b text-center">{{ u.account.email }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

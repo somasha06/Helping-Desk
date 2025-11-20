@@ -109,7 +109,7 @@ def customlogin(request):
             # if user.is_superuser:
             #     return redirect('admindashboard')
             
-            if role == "admin"or user.is_superuser:
+            if role == "admin" or user.is_superuser:
                 return redirect("adminhome")
             elif role == 'staff':
                 return redirect('staffhome')
