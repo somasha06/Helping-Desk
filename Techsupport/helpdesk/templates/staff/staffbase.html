@@ -11,7 +11,7 @@
 <body>
     <div class="flex h-16 px-[5%] py-[3%] justify-between items-center">
         <div class="w-3/12 flex">
-            <a href="" class="text-black font-semibold text-[180%]">Staff Help desk Panel</a>
+            <a href="" class="text-blue-800 font-semibold text-[180%]">Staff Help desk Panel</a>
         </div>
 
        <div class="grid w-9/12">
@@ -20,7 +20,7 @@
                 {% if request.user.is_authenticated %}
                 
                 {% comment %} <a href="{% url 'admindashboard' %}" class="hover:underline border bg-green-200 p-1 rounded-lg">Dashboard</a> {% endcomment %}
-                <form action="{% url 'getlogout' %}" class="hover:underline border bg-green-200 p-1 rounded-lg">
+                <form action="{% url 'getlogout' %}" class="hover:underline border bg-slate-800 p-1.5 text-white rounded-lg">
                     {% csrf_token %}
                     <button class="inline" type="submit">Logout</button>
                 </form>
@@ -28,7 +28,7 @@
                 {% endif %}
             </div>
             <div class="flex flex-1 text-align-right justify-end gap-8 text-lg py-2">
-                <a href="">Home</a>
+                <a href="{% url 'staffhome' %}">Home</a>
                 <a href="">Hosting</a>
                 <a href="">Domain</a>
                 <a href="">Dedicated Server</a>
@@ -46,16 +46,16 @@
     <div class="flex w-full min-h-screen bg-gray-50">
 
      <!-- Sidebar (Left) -->
-    <div class="w-3/12 bg-slate-700 text-white p-5 space-y-4">
+    <div class="w-2/12 bg-blue-100 text-blue-800 p-5 space-y-4">
         <h2 class="text-2xl font-semibold mb-6">Staff Menu</h2>
 
         <nav class="flex flex-col space-y-3">
-            <a href="{% url 'staffdashboard' %}" class="hover:bg-slate-600 p-3 rounded">Dashboard</a>
-            <a href="#" class="hover:bg-slate-600 p-3 rounded">Users</a>
-            <a href="{% url 'staffmanagetickets' %}" class="hover:bg-slate-600 p-3 rounded">Manage Tickets</a>
-            <a href="#" class="hover:bg-slate-600 p-3 rounded">Agents</a>
-            <a href="#" class="hover:bg-slate-600 p-3 rounded">Reports</a>
-            <a href="#" class="hover:bg-slate-600 p-3 rounded">Settings</a>
+            <a href="{% url 'staffdashboard' %}" class="hover:bg-blue-400 p-3 text-xl rounded">Dashboard</a>
+            <a href="#" class="hover:bg-blue-400 p-3 rounded text-xl">Users</a>
+            <a href="{% url 'staffmanagetickets' %}" class="hover:bg-blue-400 p-3 rounded text-xl">Manage Tickets</a>
+            <a href="#" class="hover:bg-blue-400 p-3 rounded text-xl">Agents</a>
+            <a href="#" class="hover:bg-blue-400 p-3 rounded text-xl">Reports</a>
+            <a href="#" class="hover:bg-blue-400 p-3 rounded text-xl">Settings</a>
         </nav>
     </div>
 

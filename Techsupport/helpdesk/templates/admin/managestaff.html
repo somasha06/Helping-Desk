@@ -26,12 +26,13 @@
                     
 
                     <td class="px-4 py-2 text-center">
+                        <a href="{% url 'staffticketdetails' s.id %}">View</a>
                         <a href="">Edit</a>
                         {% if user != is_active %}
                         {{user.active}}
                         <a href="">Active</a>
                         {% else %}
-                        <a href="">Deactive</a>
+                        <a href="">Inactive</a>
                         {% endif %}
                     </td>
                 </tr>

@@ -1,0 +1,119 @@
+{% extends "admin/adminbase.html" %}
+
+{% block content %}
+
+    <div class="grid">
+
+        <div class="p-10">
+        <h3 class="text-3xl font-semibold mb-4 text-center text-blue-700">Open Tickets</h3>
+        <table class="min-w-full bg-white border border-gray-300">
+                <thead>
+                    <tr class="border-gray-300 bg-gray-200">
+                        <th class="Px-4 py-2 border border-blue-300">ID</th>
+                        <th class="Px-4 py-2 border border-blue-300">Title</th>
+                        <th class="Px-4 py-2 border border-blue-300">Status</th>
+                        <th class="Px-4 py-2 border border-blue-300">Created on</th>
+                        <th class="Px-4 py-2 border border-blue-300">Created by</th>
+                        <th class="Px-4 py-2 border border-blue-300">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ticket in opentickets %}
+                    <tr class="bg-gray-100">
+                        <td class="px-4 py-2 border border-blue-300">{{forloop.counter}}</td>
+                        <td class="px-4 py-2 border border-blue-300">{{ticket.title}}</td>
+                        <td class="px-4 py-2 border border-blue-300">{{ticket.status}}</td>
+                        <td class="px-4 py-2 border border-blue-300">{{ticket.created_at}}</td>
+                        <td class="px-4 py-2 border border-blue-300">{{ticket.created_by.username}}</td>
+                        <td class="px-4 py-2 border border-blue-300">
+                            
+                            {% if ticket.assigned_to == None %}
+                                <form action="{% url 'assignticket' ticket.id staff.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button class="text-white border p-1 bg-blue-500 rounded-lg hover:underline">Assign Ticket </button>
+                                </form>
+                            {% endif %}
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+        </table>
+    </div> 
+
+    <div class="p-10">
+        <h3 class="text-3xl font-semibold mb-4 text-center text-green-700">In Progress Tickets</h3>
+        <table class="min-w-full bg-white border border-gray-300">
+                <thead>
+                    <tr class="border-gray-300 bg-gray-200">
+                        <th class="Px-4 py-2 border border-green-300">ID</th>
+                        <th class="Px-4 py-2 border border-green-300">Title</th>
+                        <th class="Px-4 py-2 border border-green-300">Status</th>
+                        <th class="Px-4 py-2 border border-green-300">Created on</th>
+                        <th class="Px-4 py-2 border border-green-300">Created by</th>
+                        <th class="Px-4 py-2 border border-green-300">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ticket in inprogresstickets %}
+                    <tr class="bg-gray-100">
+                        <td class="px-4 py-2 border border-green-300">{{forloop.counter}}</td>
+                        <td class="px-4 py-2 border border-green-300">{{ticket.title}}</td>
+                        <td class="px-4 py-2 border border-green-300">{{ticket.status}}</td>
+                        <td class="px-4 py-2 border border-green-300">{{ticket.created_at}}</td>
+                        <td class="px-4 py-2 border border-green-300">{{ticket.created_by.username}}</td>
+                        <td class="px-4 py-2 border border-green-300">
+
+                            {% if ticket.assigned_to == staff %}
+                                <a href="" class="text-white border p-1 bg-green-500 rounded-lg hover:underline">View Details</a>
+                            {% endif %}
+                            
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+        </table>
+    </div>
+
+
+    <div class="p-10">
+        <h3 class="text-3xl font-semibold mb-4 text-center text-red-700">Closed Tickets</h3>
+        <table class="min-w-full bg-white border border-gray-300">
+                <thead>
+                    <tr class="border-gray-300 bg-gray-200">
+                        <th class="Px-4 py-2 border border-red-300">ID</th>
+                        <th class="Px-4 py-2 border border-red-300">Title</th>
+                        <th class="Px-4 py-2 border border-red-300">Status</th>
+                        <th class="Px-4 py-2 border border-red-300">Created on</th>
+                        <th class="Px-4 py-2 border border-red-300">Created by</th>
+                        <th class="Px-4 py-2 border border-red-300">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ticket in closedtickets %}
+                    <tr class="bg-gray-100">
+                        <td class="px-4 py-2 border border-red-300">{{forloop.counter}}</td>
+                        <td class="px-4 py-2 border border-red-300">{{ticket.title}}</td>
+                        <td class="px-4 py-2 border border-red-300">{{ticket.status}}</td>
+                        <td class="px-4 py-2 border border-red-300">{{ticket.created_at}}</td>
+                        <td class="px-4 py-2 border border-red-300">{{ticket.created_by.username}}</td>
+                        <td class="px-4 py-2 border border-red-300">
+                            
+                            {% if ticket.status == "closed" %}
+                                <span class="text-white border p-1 bg-red-500 rounded-lg">Closed</span>                            
+                            {% endif %} 
+                            
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+        </table>
+    </div>
+
+    </div>
+
+{% endblock %}
+
+
+ 
+ 

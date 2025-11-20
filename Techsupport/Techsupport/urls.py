@@ -47,6 +47,9 @@ urlpatterns = [
     path("adminhome", adminhome,name="adminhome"),
     path("admin/removestaff/<int:id>/",removestaff,name="removestaff"),
     # path("admin/editstaffdetail/<int:id>/",editstaffdetail,name="editstaffdetail"),
+    path("staffticketdetails/<int:id>/",staffticketdetails,name="staffticketdetails"),
+    path("assignticket/<int:id>/<int:staff_id>/", assignticket, name="assignticket"),
+
 
 
     # user

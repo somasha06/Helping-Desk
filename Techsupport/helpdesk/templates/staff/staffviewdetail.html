@@ -82,10 +82,7 @@
     </div>
 
     <div>
-        <form action="{% url 'closeticket' ticket.id %}" method="POST" class="p-6">
-            {% csrf_token %}
-            <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 rounded-lg">Close Ticket</button>
-        </form>
+        <a  href = "{% url 'closeticket' ticket.id %}",class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 rounded-lg">Close Ticket</a>
     </div> 
 
 

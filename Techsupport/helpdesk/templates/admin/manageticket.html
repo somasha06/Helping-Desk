@@ -55,6 +55,7 @@
                         <th class="Px-4 py-2 border border-gray-300">Title</th>
                         <th class="Px-4 py-2 border border-gray-300">Status</th>
                         <th class="Px-4 py-2 border border-gray-300">Created on</th>
+                        <th class="Px-4 py-2 border border-gray-300">Assigned to</th>
                         <th class="Px-4 py-2 border border-gray-300">Actions</th>
                     </tr>
                 </thead>
@@ -66,10 +67,27 @@
                         <td class="px-4 py-2 border border-gray-300">{{ticket.status}}</td>
                         <td class="px-4 py-2 border border-gray-300">{{ticket.created_at}}</td>
                         <td class="px-4 py-2 border border-gray-300">
-                            {% if ticket.status != 'closed' %}
-                            <a href="{% url 'adminview' ticket.id %}" class="text-blue-500 hover:underline">View</a>
+                            {% if ticket.assigned_to %}
+                                {% if ticket.assigned_to.is_superuser %}
+                                    Admin: {{ ticket.assigned_to.username }}
+                                {% else %}
+                                    Staff: {{ ticket.assigned_to.username }}
+                                {% endif %}
                             {% else %}
-                            <a href="" class="text-red-500 hover:underline">close</a>
+                                unassigned
+                            {% endif %}
+
+
+                        </td>
+                        <td class="px-4 py-2 border border-gray-300">
+                            {% if ticket.status == 'in_progress' %}
+                            <a href="{% url 'adminview' ticket.id %}" class="text-blue-500 hover:underline">View</a>
+                            {% elif ticket.status == 'open'  %}
+                            <a href="{% url 'adminview' ticket.id %}" class="text-blue-500 hover:underline">View</a>
+                            <a href="" class="text-red-500 hover:underline">Assign</a>
+
+                            {% else%}
+                                <span>Close</span>
                             {% endif %}
                         </td>
                     </tr>

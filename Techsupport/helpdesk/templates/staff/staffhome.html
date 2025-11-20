@@ -20,8 +20,7 @@
                 
                 {% if request.user.is_authenticated %}
                 
-                {% comment %} <a href="{% url 'admindashboard' %}" class="hover:underline border bg-green-200 p-1 rounded-lg">Dashboard</a> {% endcomment %}
-                <form action="{% url 'getlogout' %}" class="hover:underline border bg-green-200 p-1 rounded-lg">
+                <form action="{% url 'getlogout' %}" class="hover:underline border bg-slate-800 p-1.5 text-white rounded-lg">
                     {% csrf_token %}
                     <button class="inline" type="submit">Logout</button>
                 </form>
@@ -59,7 +58,7 @@
         <div class="flex gap-5">
             <h1 class="text-[180%] font-bold text-center">Welcome to Help desk panel!</h1>
             {% comment %} {% if request.user.is_authenticated %} {% endcomment %}
-            <a href="{% url 'staffdashboard' %}" class="bg-slate-700 text-black font-bold text-xl text-white px-6 py-3 rounded hover:bg-blue-500">Go to Dashboard</a>
+            <a href="{% url 'staffdashboard' %}" class="hover:underline border bg-slate-800 p-4 text-xl font-bold text-white rounded-lg">Go to Dashboard</a>
             {% comment %} {% else %}
             <a href="" class="bg-slate-300 text-black px-6 py-3 rounded hover:bg-blue-700">Get Started</a>
             {% endif %}  {% endcomment %}
@@ -84,7 +83,6 @@
     </div>
     <div class="w-5/12 p-10 flex items-center justify-center">
         <img src="{% static 'helpdog.png' %}" alt="Help Desk dog" class="rounded-2xl shadow-lg object-cover  w-[400px]" />
-
     </div>
     
 </div>

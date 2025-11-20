@@ -101,6 +101,10 @@ def adminview(request,id):
                   reply.ticket=ticket
                   reply.commented_by=request.user
                   reply.save()
+
+                  ticket.assigned_to=request.user
+                  ticket.status="in_progress"
+                  ticket.save()
                   return redirect("adminview",id=id)
 
                   
@@ -155,5 +159,34 @@ def removestaff(request,id):
         
 #     return render(request,"admin/editstaffdetail.html",{"staff":staff})
 
+def staffticketdetails(request, id):
+    # Get the staff user by ID
+    staff = User.objects.get(id=id)
+
+    # Filter tickets assigned to this staff
+    opentickets = Supportticket.objects.filter(status="open")
+    inprogresstickets = Supportticket.objects.filter(status="in_progress", assigned_to=staff)
+    closedtickets = Supportticket.objects.filter(status="closed", assigned_to=staff)
+
+    data = {
+        "staff": staff,
+        "opentickets": opentickets,
+        "inprogresstickets": inprogresstickets,
+        "closedtickets": closedtickets,
+    }
+
+    return render(request, "admin/viewstaffdetail.html", data)
+
+def assignticket(request,id,staff_id):
+    
+    ticket=Supportticket.objects.get(id=id)
+    staff=User.objects.get(id=staff_id)
+
+    if ticket.assigned_to is None:
+        ticket.assigned_to = staff
+        ticket.status="in_progress"
+        ticket.save()
+
+    return redirect(staffticketdetails,staff_id)
 
 

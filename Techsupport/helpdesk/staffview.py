@@ -10,22 +10,23 @@ def staffhome(request):
     return render(request,"staff/staffhome.html")
 
 def staffmanagetickets(request):    
-    unassigned=Supportticket.objects.filter(assigned_to=None)
-    myassigned=Supportticket.objects.filter(assigned_to=request.user)
+    
+    opentickets = Supportticket.objects.filter(status="open")
+    inprogresstickets=Supportticket.objects.filter(status="in_progress",assigned_to=request.user)
+    closedtickets=Supportticket.objects.filter(status="closed",assigned_to=request.user)
 
-    myticket = unassigned | myassigned
-    return render(request,'staff/staffmanageticket.html',{"myticket":myticket})
+    data = {
+        "opentickets": opentickets,
+        "inprogresstickets": inprogresstickets,
+        "closedtickets": closedtickets,
+    }
+
+    return render(request,'staff/staffmanageticket.html',data)
 
 
 def staffviewdetail(request,id):
    
         ticket=Supportticket.objects.get(id=id)
-        # if ticket.assigned_to != request.user:
-        #     return redirect("staffmanagetickets")
-
-        # if ticket.status == "closed":
-        #     return redirect("staffmanagetickets")
-
         attachments = Ticketattachment.objects.filter(ticket=ticket)
         comments=Ticketcomment.objects.filter(ticket=ticket)
         
@@ -60,8 +61,8 @@ def taketicket(request,id):
 def closeticket(request,id):
     ticket=Supportticket.objects.get(id=id)
 
-    if ticket.assigned_to == request.user:
-        ticket.status == "closed"
-        ticket.save()
+    
+    ticket.status = "closed"
+    ticket.save()
  
     return redirect(staffmanagetickets) 
