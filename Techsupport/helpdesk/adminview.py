@@ -185,6 +185,8 @@ def assignticket(request,id,staff_id):
     if ticket.assigned_to is None:
         ticket.assigned_to = staff
         ticket.status="in_progress"
+
+        
         ticket.save()
 
     return redirect(staffticketdetails,staff_id)
