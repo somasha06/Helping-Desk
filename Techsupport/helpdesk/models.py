@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Userrole(models.Model):
-    account=models.OneToOneField(User,on_delete=models.CASCADE,related_name="roleinfo",null=True)#account → the Django built-in User relatedname =the UserRole object linked to that user (reverse lookup)
+    account=models.OneToOneField(User,on_delete=models.CASCADE,related_name="roleinfo",null=True)#account → the Django built-in User ,relatedname =the UserRole object linked to that user (reverse lookup)
     role=models.CharField(max_length=200,choices=(("user","user"),("staff","staff"),("admin","admin")),default='user')
 
     # def __str__(self):

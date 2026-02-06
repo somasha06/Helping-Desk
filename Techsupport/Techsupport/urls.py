@@ -39,16 +39,22 @@ urlpatterns = [
     path("admin/manageusers/",manageusers,name="manageusers"),
     path("admin/managetickets/",managetickets,name="managetickets"),
     path("admin/adminview/<int:id>",adminview,name="adminview"),
-    path("admin/reports/",reports,name="reports"),
     path("admin/settings/",adminsettings,name="adminsettings"),
     path("admin/user/",manageusers,name="manageusers"),
     path("admin/managestaff/",managestaff,name="managestaff"),
     path("admin/createstaff/", createstaff, name="createstaff"),
     path("adminhome", adminhome,name="adminhome"),
     path("admin/removestaff/<int:id>/",removestaff,name="removestaff"),
+    path('admin/reports/', admin_reports, name='admin_reports'),
+
     # path("admin/editstaffdetail/<int:id>/",editstaffdetail,name="editstaffdetail"),
     path("staffticketdetails/<int:id>/",staffticketdetails,name="staffticketdetails"),
+    path("viewdetails/<int:id>/",viewuserdetails,name="userdetails"),
     path("assignticket/<int:id>/<int:staff_id>/", assignticket, name="assignticket"),
+    path("admin/viewfulluserdetail/<int:id>/",viewfulluserdetail,name="viewfulluserdetail"),
+    path("staff_user/",staff_user,name="staff_user"),
+    path('staff/reports/', staff_reports, name='staff_reports'),
+
 
 
 
@@ -64,8 +70,8 @@ urlpatterns = [
     path("staffhome/",staffhome,name="staffhome"),
     path("staffhome/staff/",staffdashboard,name="staffdashboard"),
     path("staffmanageticket/",staffmanagetickets,name="staffmanagetickets"),
-    path("staffmanageticket/<int:id>",staffviewdetail,name="staffviewdetail"),
-    path("taketicket/<int:id>",taketicket,name="taketicket"),
+    path("staffmanageticket/<int:id>/",staffviewdetail,name="staffviewdetail"),
+    path("taketicket/<int:id>/",taketicket,name="taketicket"),
     path("closeticket/<int:id>/",closeticket,name="closeticket"),
 ]
 

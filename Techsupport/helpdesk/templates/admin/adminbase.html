@@ -14,8 +14,11 @@
             <a href="" class="text-black font-semibold text-[180%]">Admin Help desk Panel</a>
         </div>
 
-       <div class="grid w-9/12">
-            <div class="flex text-align-right justify-end text-lg  gap-5"> 
+       {% comment %} <div class="grid w-9/12"> {% endcomment %}
+            
+            <div class="flex flex-1 text-align-right justify-end gap-8 text-lg py-2 items-center">
+                <a href="{% url 'admindashboard' %}" class="hover:underline border bg-green-200 p-1 rounded-lg">Home</a>
+                <div class="flex text-align-right justify-end text-lg  gap-5"> 
                 
                 {% if request.user.is_authenticated %}
                 
@@ -26,19 +29,17 @@
                 </form>
 
                 {% endif %}
-            </div>
-            <div class="flex flex-1 text-align-right justify-end gap-8 text-lg py-2">
-                <a href="">Home</a>
-                <a href="">Hosting</a>
+                </div>
+                {% comment %} <a href="">Hosting</a>
                 <a href="">Domain</a>
                 <a href="">Dedicated Server</a>
                 <a href="">VPS</a>
                 <a href="">cloud</a>
                 <a href="">Server</a>
                 <a href="">Transfer</a>
-                <a href="">Services</a>
+                <a href="">Services</a> {% endcomment %}
             </div>
-       </div>
+       
     </div>
     <hr class="border border-black w-3/4 mx-auto my-2">
 
@@ -54,7 +55,7 @@
                 <a href="{% url 'manageusers' %}" class="hover:bg-slate-600 p-3 rounded">Users</a>
                 <a href="{% url 'managetickets' %}" class="hover:bg-slate-600 p-3 rounded">Manage Tickets</a>
                 <a href="{% url 'managestaff' %}" class="hover:bg-slate-600 p-3 rounded">Manage Staff</a>
-                <a href="#" class="hover:bg-slate-600 p-3 rounded">Reports</a>
+                <a href="{% url 'admin_reports' %}" class="hover:bg-slate-600 p-3 rounded">Reports</a>
                 <a href="#" class="hover:bg-slate-600 p-3 rounded">Settings</a>
             </nav>
         </div>

@@ -51,10 +51,10 @@
 
         <nav class="flex flex-col space-y-3">
             <a href="{% url 'staffdashboard' %}" class="hover:bg-blue-400 p-3 text-xl rounded">Dashboard</a>
-            <a href="#" class="hover:bg-blue-400 p-3 rounded text-xl">Users</a>
+            <a href="{% url 'staff_user' %}" class="hover:bg-blue-400 p-3 rounded text-xl">Users</a>
             <a href="{% url 'staffmanagetickets' %}" class="hover:bg-blue-400 p-3 rounded text-xl">Manage Tickets</a>
-            <a href="#" class="hover:bg-blue-400 p-3 rounded text-xl">Agents</a>
-            <a href="#" class="hover:bg-blue-400 p-3 rounded text-xl">Reports</a>
+            {% comment %} <a href="#" class="hover:bg-blue-400 p-3 rounded text-xl">Agents</a> {% endcomment %}
+            <a href="{% url 'staff_reports' %}" class="hover:bg-blue-400 p-3 rounded text-xl">Reports</a>
             <a href="#" class="hover:bg-blue-400 p-3 rounded text-xl">Settings</a>
         </nav>
     </div>

@@ -1,7 +1,11 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from helpdesk.models import Supportticket,Ticketattachment,Ticketcomment
 from .userform import SupportTicketForm,TicketAttachmentForm,TicketCommentForm
+from django.contrib.auth.decorators import login_required
+from .decorators import role_required
 
+@login_required()
+@role_required(allowed_roles={"user"})
 def userdashboard(request):
     countticket={
         'openticket':Supportticket.objects.filter(status='open', created_by=request.user).count(),
@@ -10,9 +14,13 @@ def userdashboard(request):
     }
     return render(request,'user/userdashboard.html',countticket)
 
+@login_required()
+@role_required(allowed_roles={"user"})
 def userhome(request):
      return render(request,"user/userhome.html")
 
+@login_required()
+@role_required(allowed_roles={"user"})
 def usertickets(request):
     if request.method == "POST":
         title=request.POST.get('title')
@@ -36,6 +44,8 @@ def usertickets(request):
 
     return render(request,'user/usertickets.html',{"myticket":myticket})
 
+@login_required()
+@role_required(allowed_roles={"user"})
 def iscomplete(r,id):
     ticket=SupportTicketForm.objects.get(id=id)
     ticket.is_completed=True
@@ -43,6 +53,8 @@ def iscomplete(r,id):
     ticket.save()
     return redirect('usertickets')
 
+@login_required()
+@role_required(allowed_roles={"user"})
 def userticketdetail(request,id):
    
         ticket=Supportticket.objects.get(id=id,created_by=request.user)

@@ -105,11 +105,19 @@ def customlogin(request):
         if user is not None:
             login(request,user)
 
-            role=user.roleinfo.role
+            if user.is_superuser:
+                return redirect("adminhome")
+            
+            try:
+                role = user.roleinfo.role
+            except:
+                return redirect("userhome")
+        
+            # role=user.roleinfo.role
             # if user.is_superuser:
             #     return redirect('admindashboard')
             
-            if role == "admin" or user.is_superuser:
+            if role == "admin":
                 return redirect("adminhome")
             elif role == 'staff':
                 return redirect('staffhome')

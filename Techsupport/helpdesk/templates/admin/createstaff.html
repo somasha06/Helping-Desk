@@ -18,12 +18,12 @@
             </thead>
 
             <tbody>
-                {% for s in staff_users %}
+                {% for staff in staff_users %}
                 <tr class="border-b">
                     <td class="px-4 py-2 text-center">{{ forloop.counter }}</td>
-                    <td class="px-4 py-2 text-center">{{ s.username }}</td>
-                    <td class="px-4 py-2 text-center">{{ s.email }}</td>
-                    <td class="px-4 py-2 text-center">{{ s.date_joined }}</td>
+                    <td class="px-4 py-2 text-center">{{ staff.username }}</td>
+                    <td class="px-4 py-2 text-center">{{ staff.email }}</td>
+                    <td class="px-4 py-2 text-center">{{ staff.date_joined }}</td>
                 </tr>
                 {% empty %}
                
